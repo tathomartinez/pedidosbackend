@@ -20,16 +20,28 @@ import com.main.pedido.entitys.Pedido;
 import com.main.pedido.entitys.Producto;
 
 @RestController
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
 @RequestMapping("productos")
+/**
+ * 
+ * @author JOAN MARTINEZ Clase PedidosREST agrupacion para generacion de apiRest
+ *
+ */
 public class PedidosREST {
-
+	/**
+	 * Especificacion de DAOs
+	 */
 	@Autowired
 	private ProductoDAO productoDAO;
 
 	@Autowired
 	private PedidoDAO pedidoDAO;
 
+	/**
+	 * getProducto() Metodo que obtiene todas las entidades de base de datos
+	 * 
+	 * @return lista de entidades
+	 */
 	@GetMapping
 	public ResponseEntity<List<Producto>> getProducto() {
 		List<Producto> productos = productoDAO.findAll();
@@ -38,7 +50,13 @@ public class PedidosREST {
 	}
 
 	@RequestMapping("{id}")
-
+	/**
+	 * getProductoById(Long) Metodo que obtiene una entidade de base de datos
+	 * fiñtrrado por su id
+	 * 
+	 * @param id (long) de entidad a buscar
+	 * @return entidad por id
+	 */
 	public ResponseEntity<Producto> getProductoById(@PathVariable("id") Long id) {
 		Optional<Producto> producto = productoDAO.findById(id);
 		if (!producto.isPresent())
@@ -47,6 +65,12 @@ public class PedidosREST {
 
 	}
 
+	/**
+	 * crearPedido(Objeto) Metodo de creacion de nuevos pedidos
+	 * 
+	 * @param pedido
+	 * @return pedido nuevo
+	 */
 	@PostMapping
 	public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedido) {
 		Pedido nuevoPedido = pedidoDAO.save(pedido);
